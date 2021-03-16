@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.md.persistence.module.DictionaryMapper" >
+    <!-- 查询数据字典类型 -->
+    <select id="findDictTypeInfo" parameterType="Dictionary" resultType="Dictionary">
+        SELECT ROWNUM AS ID, DICTTYPEID, DICTTYPENAME
+          FROM EOS_DICT_TYPE
+        <where>
+            <if test="null != dictTypeId and '' != dictTypeId">
+                DICTTYPEID LIKE '%' || #{dictTypeId} || '%' OR DICTTYPENAME LIKE '%' || #{dictTypeId} || '%'
+            </if>
+            <if test="null != dictTypeName and '' != dictTypeName">
+                AND DICTTYPENAME LIKE '%' || #{dictTypeName} || '%'
+            </if>
+        </where>
+    </select>
+
+    <!-- 保存数据 -->
+    <insert id="saveDictType" parameterType="Dictionary">
+        INSERT INTO EOS_DICT_TYPE(DICTTYPEID,DICTTYPENAME)
+        VALUES(#{dictTypeId, jdbcType=VARCHAR},#{dictTypeName, jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 修改数据 -->
+    <insert id="updateDictType" parameterType="Dictionary">
+        UPDATE EOS_DICT_TYPE
+        <set>
+            DICTTYPENAME = #{dictTypeName, jdbcType=VARCHAR}
+        </set>
+        <where>
+            DICTTYPEID = #{dictTypeId, jdbcType=VARCHAR}
+        </where>
+    </insert>
+
+    <!-- 删除数据 -->
+    <insert id="deleteDictType" parameterType="Dictionary">
+        DELETE EOS_DICT_TYPE
+        <where>
+            DICTTYPEID IN
+            <foreach item="list" collection="list" open="(" separator="," close=")">
+                #{list.dictTypeId}
+            </foreach>
+        </where>
+    </insert>
+</mapper>

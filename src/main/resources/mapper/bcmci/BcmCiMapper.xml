@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.md.persistence.bcmci.BcmCiMapper" >
+    <!-- 查询各生产厂家的理论净重 -->
+    <select id="getWeightByDate" resultType="BcmCi" parameterType="BcmCi">
+        SELECT BO.ORGNAME, ROUND(SUM(NVL(L.NET_WEIGHT,0)),2) AS NETWEIGHT
+          FROM CRM_SO_ORDER_HEADER H
+          LEFT JOIN CRM_SO_ORDER_LINE L ON H.ORDER_ID = L.ORDER_ID
+          LEFT JOIN OM_BUSIORG BO ON H.DELIVERY_ORG = BO.BUSIORGID
+        <where>
+            BRANCH_APPROVAL_TIME IS NOT NULL AND STATUS NOT IN ('A','E','E2','E3','B1')
+            AND TO_CHAR(DELIVERY_DATE,'YYYY-MM-DD') >= '2019-12-01'
+        </where>
+         GROUP BY BO.ORGNAME
+    </select>
+</mapper>

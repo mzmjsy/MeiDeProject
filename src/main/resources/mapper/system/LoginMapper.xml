@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.md.persistence.system.LoginMapper" >
+
+    <!-- 查询用户信息 -->
+    <select id="getAccountInfo" parameterType="Account" resultType="Account" >
+        SELECT ID, USERNAME, NICKNAME, PASSWORD, TELEPHONE, EMAIL, SEX, BIRTHDAY,
+               PROVINCE, CITY, DISTRICT, REMARK
+          FROM ACCOUNT
+        <where>
+            <if test="id != null and id != ''">
+                ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="username != null and username != ''">
+                AND USERNAME = #{username,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null and password != ''">
+                AND PASSWORD = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND NICKNAME = #{nickname,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 保存用户注册的信息 -->
+    <insert id="saveAccountInfo" parameterType="Account">
+        INSERT INTO ACCOUNT(ID,USERNAME,NICKNAME,PASSWORD,TELEPHONE,EMAIL)
+        VALUES (#{id,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},
+                #{password,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 更新用户信息 -->
+    <insert id="updateAccountInfo" parameterType="Account">
+        UPDATE ACCOUNT
+        <set>
+            TELEPHONE = #{telephone,jdbcType=VARCHAR},
+            NICKNAME = #{nickname,jdbcType=VARCHAR},
+            EMAIL = #{email,jdbcType=VARCHAR},
+            SEX = #{sex,jdbcType=VARCHAR},
+            BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+            PROVINCE = #{province,jdbcType=VARCHAR},
+            CITY = #{city,jdbcType=VARCHAR},
+            DISTRICT = #{district,jdbcType=VARCHAR},
+            REMARK = #{remark,jdbcType=VARCHAR}
+        </set>
+        <where>
+            USERNAME = #{username,jdbcType=VARCHAR}
+        </where>
+    </insert>
+</mapper>

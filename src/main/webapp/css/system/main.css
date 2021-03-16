@@ -1,0 +1,20 @@
+.layui-logo{
+    overflow:auto;
+}
+.layui-logo img{
+    width:60%;
+    height:auto;
+    overflow: hidden;
+}
+.rightmenu {
+    display: none;
+    position: absolute;
+    background-color:gainsboro;
+    padding: 5px 5px 5px 5px;
+}
+.layui-tab {
+    margin-left: 200px;
+}
+.kit-side-fold i img {
+    margin-left: 39%;
+}

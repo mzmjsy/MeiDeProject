@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.md.persistence.module.ModuleMapper" >
+
+    <!-- 根据级别获取节点信息 -->
+    <select id="getModuleInfoByLevel" parameterType="java.lang.Integer" resultType="Module" >
+        SELECT NID, VCODE, NLEVEL, VTITLE, VURL, VPARENTCODE, CREATE_TIME AS CREATETIME
+          FROM MODULE
+        <where>
+            <if test="null != level and '' != level and 0 != level">
+                NLEVEL = ${level}
+            </if>
+        </where>
+         ORDER BY VCODE
+    </select>
+
+    <!-- 获取节点信息 -->
+    <select id="getAllModuleInfo" parameterType="Module" resultType="Module" >
+        SELECT NID, VCODE, NLEVEL, VTITLE, VURL, VPARENTCODE, CREATE_TIME AS CREATETIME
+        FROM MODULE
+        <where>
+            <if test="null != vcode and '' != vcode">
+                VCODE = #{vcode, jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY VCODE
+    </select>
+
+    <!-- 查询ID最大值 -->
+    <select id="getMaxId" resultType="int">
+        SELECT MAX(NID) + 1 FROM MODULE
+    </select>
+
+    <!-- 保存节点信息 -->
+    <insert id="saveModuleInfo" parameterType="Module">
+        INSERT INTO MODULE(NID, VCODE, NLEVEL, VTITLE, VURL, VPARENTCODE)
+        VALUES (#{nid, jdbcType=INTEGER}, #{vcode, jdbcType=VARCHAR}, #{nlevel, jdbcType=INTEGER},
+                #{vtitle, jdbcType=INTEGER},#{vurl, jdbcType=VARCHAR}, #{vparentcode, jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 修改节点信息 -->
+    <update id="updateModuleInfo" parameterType="Module">
+        UPDATE MODULE
+        <set>
+            VTITLE = #{vtitle, jdbcType=VARCHAR},
+            VURL = #{vurl, jdbcType=VARCHAR}
+        </set>
+        <where>
+            VCODE = #{vcode, jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <!-- 删除节点信息 -->
+    <delete id="deleteModuleInfo" parameterType="Module">
+        DELETE FROM MODULE
+        <where>
+            VCODE = #{vcode, jdbcType=VARCHAR}
+            OR VCODE IN (SELECT VCODE FROM MODULE WHERE VPARENTCODE = #{vcode, jdbcType=VARCHAR})
+            OR VCODE IN (SELECT VCODE FROM MODULE WHERE VPARENTCODE IN (SELECT VCODE FROM MODULE WHERE VPARENTCODE = #{vcode, jdbcType=VARCHAR}))
+        </where>
+    </delete>
+</mapper>

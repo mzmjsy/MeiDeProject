@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+.layui-table-page {
+    z-index: 99999;
+    position: fixed;
+    bottom: -5px;
+}

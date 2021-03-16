@@ -1,0 +1,174 @@
+﻿<style type="text/css">
+	
+.page{
+	position: absolute;
+	width:100%;
+	bottom:0px;
+	left:0px;
+}
+.pgToolbar {
+	height:24px;
+	width:100%;
+	line-height:24px;
+	font-size:9px;
+//	border:1px solid #DADADA;
+	background: url(${path}/image/page/page_bj.png) repeat-x center center;
+}
+/*.changePageSize{*/
+	/*margin-right: 20px;*/
+/*}*/
+.pgToolbar div {
+	float:left;
+	font-size:12px;
+	}
+
+.pgPanel {
+	float:left;
+	width:100%;
+	height:24px;
+    /*margin-left: 24px;*/
+	}
+
+.pgPerSize{
+	height:16px;
+	line-height:16px;
+	border:1px solid #CCCCCC;
+    padding: 0px 6px;
+    border-radius: 2px;
+    width: 16px;
+}
+
+.pgBtn {
+	padding-top:3px;
+	/*width: 20px;*/
+	/*height: 22px;*/
+	display: block;
+	cursor: pointer;
+	margin:1px;
+	}
+
+.pgPress {
+	margin:2px 0 0 2px;
+	}
+
+.pgCurrentPage {
+	width:24px;
+	height:16px;
+	line-height:16px;
+	text-align:center;
+	border:1px solid #CCCCCC;
+}
+
+/*.pgSearchInfo {*/
+	/*margin-left:20px;*/
+/*}*/
+
+.cleanFloat {
+	clear:both;
+	display:none;
+}
+
+.separator {
+    width: 2px;
+    height: 24px;
+    margin: 0 5px 0 5px;
+    background: url(${path}/image/page/separator.gif) no-repeat center;
+}
+
+#gotoPage{
+    width: 30px;
+	border-radius: 2px;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    background: url(${path}/image/page/down.png) no-repeat right center transparent;
+}
+</style>
+
+<script type="text/javascript">
+	function pageAction(nowPage){
+		if(!nowPage){
+			document.getElementById("nowPage").value = document.getElementById("gotoPage").value;
+		}else{
+			document.getElementById("nowPage").value = nowPage;
+		}
+		document.getElementById('$form').submit();
+	}
+
+	function perPageColSizeAction(count){
+		var regNum = /^[0-9]*[1-9][0-9]*$/ ;
+		var val = document.getElementById("viewPageColSize").value;
+		if(val == '' || val == '0' || !regNum.test(val)){
+			alert("请输入有效数字");
+			document.getElementById("viewPageColSize").value = document.getElementById("pageSize").value;
+			return ;
+		}else if(val>$page.maxSize){
+			alert("最大条数不能超过"+$page.maxSize+"条");
+			document.getElementById("viewPageColSize").value = document.getElementById("pageSize").value;
+			return ;
+		}else{
+			document.getElementById("pageSize").value = val;
+			document.getElementById('$form').submit();
+		}
+	}
+</script>
+<div class="page">
+<div class="pgToolbar">
+<div class="pgPanel">
+	<div class="changePageSize">每页显示 <input class="pgPerSize" type="text" value="$page.pageSize" size="2" id="viewPageColSize" onchange="perPageColSizeAction($page.count)" /> 条记录&nbsp;
+	</div> 
+		<div class="separator" ></div> 
+		<div class="pgBtn pgFirst" id="pgFirst" title="首页">
+	 	#if($page.nowPage != 1)
+	 	<img src="${path}/css/img/page/first.png" onclick="pageAction(1);"/>
+	 	#else
+	 	<img src="${path}/css/img/page/first_disabled.png"/>#end
+	 	</div>
+	
+	 <div class="pgBtn pgPrev" id="pgPrev" title="上页">
+	 	#if($page.nowPage != 1)
+	 		#set($prePage = $page.nowPage - 1)
+	 	<img src="${path}/css/img/page/prev.png" onclick="pageAction($prePage);" />
+	 	#else
+	 	<img src="${path}/css/img/page/prev_disabled.png"/>#end
+	 </div>
+	 <div class="separator" ></div>
+	 
+	 <div class="turnPage">第 <select id="gotoPage" onchange="pageAction()" >
+		#foreach($element in [1..$page.pageCount])
+				#if($element == $page.nowPage)
+					<option value="$element" selected="selected">$element</option>
+				#else
+					<option value="$element">$element</option>
+				#end
+				
+				
+		#end
+	</select> 页 / 共 <span class="pgTotalPage">$page.pageCount</span> 页</div>
+	 <div class="separator" ></div>
+	 <div class="pgBtn pgNext" id="pgNext" title="下页" >
+	 	#if($page.nowPage !=  $page.pageCount)
+	 		#set($nextPage = $page.nowPage +1)
+	 	<img src="${path}/css/img/page/next.png" onclick="pageAction($nextPage);"/>
+	 	#else
+	 	<img src="${path}/css/img/page/next_disabled.png"/>#end
+	 </div>
+	 <div class="pgBtn pgLast" id="pgLast" title="尾页" >
+	 	#if($page.nowPage != $page.pageCount)
+	 	<img src="${path}/css/img/page/last.png" onclick="pageAction($page.pageCount);"/>
+	 	#else
+	 	<img src="${path}/css/img/page/last_disabled.png"/>#end
+	 </div>	
+	 <div class="separator"></div>
+	#if($page.count != 0)
+	#set($startcol = $page.offset+1)
+	#set($lastcol = $page.offset + $page.limit )
+	 <div class="pgSearchInfo">检索到&nbsp;$page.count&nbsp;条记录,显示第&nbsp;<span class="pgStartRecord">$startcol</span>&nbsp;条&nbsp;-&nbsp;
+	 第&nbsp;<span class="pgEndRecord">$lastcol
+	 </span>&nbsp;条记录</div><hr class="cleanFloat" />
+	#else
+	 <div class="pgSearchInfo">检索到&nbsp;$page.count&nbsp;条记录</div><hr class="cleanFloat" />
+	#end
+</div>
+</div>
+</div>

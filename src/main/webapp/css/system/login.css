@@ -1,0 +1,118 @@
+@CHARSET "UTF-8";
+.main_bar{
+    width:1200px;
+    height:700px;
+    margin:25px 0px 0px 100px;
+}
+#login_form{
+    width:100%;
+    height:70%;
+    padding-top: 220px;
+}
+
+.title{
+    width:100%;
+    height:55px;
+    color:#ffffff;
+    border-bottom:1px solid #ffffff;
+    font-size:20pt;
+    font-family:"微软雅黑";
+    line-height:55px;
+    text-align:center;
+}
+#form_widget{
+    width:40%;
+    height:350px;
+    margin-left: 500px;
+    background-color:#808080;
+}
+.text_name {
+    margin-left: 80px;
+    font-size: 20px;
+}
+.txt{
+    /*display:block;*//*设置为独立块（换行）*/
+    width:50%;
+    height:35px;
+    font-size:15pt;
+    border-radius:5px;/*设置圆角样式*/
+    border:0;
+    padding-left:8px;
+    margin:30px 0px 0px 20px;
+}
+#code{
+    height:35px;
+    width:21%;
+    font-size:15pt;
+    border-radius:5px;
+    border:0;
+    padding-left:8px;
+    margin:30px 0px 0px 20px;
+}
+#vcode{
+    color:#ffffff;/*字体颜色白色*/
+    background-color:#000000;
+    font-size:15pt;
+    font-family:"华康娃娃体W5";
+    padding:5px 35px 10px 35px;
+    margin-left:4.5%;
+    cursor:pointer;
+    border-radius:5px;
+}
+#search_pass_link{
+    width:70%;
+    text-align:left;
+    margin-left:75px;
+    padding:5px;
+    height:40px;
+    color: #ff6441;
+}
+/*层级选择器*/
+#search_pass_link a{
+    color:#000000;
+    text-decoration:none;
+}
+/*伪类*/
+#search_pass_link a:hover{
+    color:#ff0000;
+    text-decoration:underline;
+}
+.btn{
+    width:70%;
+    margin-left:16%;
+    height:40px;
+    border:0;
+    font-size:14pt;
+    font-family:"微软雅黑";
+    background-color:#FC5628;
+    color:#ffffff;
+    cursor:pointer;/*设置指针鼠标的样式*/
+    border-radius:20px;/*设置圆角样式*/
+    border:0;
+}
+#copyright{
+    width:100%;
+    text-align:center;
+    padding-top:20px;
+    font-family:"微软雅黑";
+    color:#e0e0e0;
+}
+.message {
+    margin: 10px 0 0 180px;
+    color: #b3b3b3;
+    font-size: 14px;
+}
+.message a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+.form_div {
+    width:35%;
+    height:350px;
+    margin-left: 500px;
+    background-color: #4a8074;
+    padding:30px 0px 0px 30px;
+}
+.slider {
+    width: 190px;
+}
